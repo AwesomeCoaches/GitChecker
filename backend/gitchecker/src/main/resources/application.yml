@@ -1,0 +1,18 @@
+spring:
+    # servlet config
+    servlet:
+      multipart:
+        max-file-size: 100MB
+        max-request-size: 100MB
+
+    # database config
+    datasource:
+        url: jdbc:mysql://t4coach44.p.ssafy.io:3306/gitchecker?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&characterEncoding=UTF-8
+        username: root
+        password: root
+    # jpa config
+    jpa:
+        show-sql: true
+        database-platform: org.hibernate.dialect.MySQL8Dialect
+        hibernate:
+            ddl-auto: create

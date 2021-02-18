@@ -1,0 +1,5 @@
+### PID file ###
+*.pid
+
+### VS Code ###
+.vscode/*
