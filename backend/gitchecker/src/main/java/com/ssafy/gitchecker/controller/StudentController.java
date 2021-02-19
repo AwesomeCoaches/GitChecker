@@ -6,6 +6,10 @@ import java.util.Map;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.ssafy.gitchecker.exception.ResourceNotFoundException;
 import com.ssafy.gitchecker.repository.StudentRepository;
 
@@ -39,16 +43,20 @@ public class StudentController {
             @RequestParam(required = false, name = "team_id") @Pattern(regexp = "[a-zA-Z0-9]{4}") String teamId,
             @RequestParam(required = false, name = "git_id") @Pattern(regexp = "[a-zA-Z0-9]{4, 20}") String gitId) {
 
-        if(grp != null) return sr.findByGrp(grp).stream().map(s -> s.toResponse());
-        else if(city != null) return sr.findByCity(city).stream().map(s -> s.toResponse());
-        else if (cls != null) return sr.findByCls(cls).stream().map(s -> s.toResponse());
-        else if (teamId != null) return sr.findByTeamId(teamId).stream().map(s -> s.toResponse());
-        else if (gitId != null) return sr.findByGitId(gitId)
-                .orElseThrow(() -> new ResourceNotFoundException("student", "git_id", gitId));
+        if (grp != null)
+            return sr.findByGrp(grp).stream().map(s -> s.toResponse());
+        else if (city != null)
+            return sr.findByCity(city).stream().map(s -> s.toResponse());
+        else if (cls != null)
+            return sr.findByCls(cls).stream().map(s -> s.toResponse());
+        else if (teamId != null)
+            return sr.findByTeamId(teamId).stream().map(s -> s.toResponse());
+        else if (gitId != null)
+            return sr.findByGitId(gitId).orElseThrow(() -> new ResourceNotFoundException("student", "git_id", gitId));
         return sr.findAll().stream().map(s -> s.toResponse());
     }
 
-    @GetMapping("/getInfo")
+    @GetMapping("/projects")
     public Object getInfo(@RequestParam(required = false, name = "search") @Size(min = 1, max = 10) String search) {
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         factory.setReadTimeout(5000);
@@ -59,16 +67,27 @@ public class StudentController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("PRIVATE-TOKEN", privateToken);
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BaseUrl + "/projects")
-        .queryParam("simple", "true");
-        if(search != null) builder.queryParam("search", search);
+        UriComponentsBuilder builder = UriComponentsBuilder
+            .fromHttpUrl(BaseUrl + "/projects")
+            .queryParam("simple","true")
+            .queryParam("per_page", 100);
+        if (search != null)
+            builder.queryParam("search", search);
 
-        HttpEntity<Map<String,String>> httpEntity = new HttpEntity<>(headers);
+        HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<String> responseEntity = rt.exchange(builder.toUriString(), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> responseEntity = rt.exchange(builder.toUriString(), HttpMethod.GET, httpEntity,
+                String.class);
 
-        // System.out.println(responseEntity.getBody());
+        Gson gson = new Gson();
+        JsonArray jsonArr = gson.fromJson(responseEntity.getBody(), JsonArray.class);
 
-        return responseEntity.getBody();
+        Map<String, String> resMap = new HashMap<>();
+        
+        for(int i = 0; i < jsonArr.size(); i++){
+            resMap.put( i + "", jsonArr.get(i).getAsJsonObject().get("path").toString());
+        }
+
+        return resMap.toString();
     }
 }
