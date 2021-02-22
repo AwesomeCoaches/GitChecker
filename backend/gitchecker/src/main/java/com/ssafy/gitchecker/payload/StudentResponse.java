@@ -14,9 +14,8 @@ public class StudentResponse {
     private Long id;
     private String name;
 
-    @JsonProperty("git_id")
-    private String gitId;
-    private String email;
+    @JsonProperty("username")
+    private String username;
 
     @JsonProperty("group")
     private int grp;
@@ -28,6 +27,6 @@ public class StudentResponse {
     @JsonProperty("team_id")
     private String teamId;
 
-    @JsonProperty("image_url")
-    private String imageUrl;
+    @JsonProperty("avatar_url")
+    private String avatarUrl;
 }

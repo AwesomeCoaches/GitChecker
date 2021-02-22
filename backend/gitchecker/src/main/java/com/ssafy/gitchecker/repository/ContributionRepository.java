@@ -21,6 +21,6 @@ public interface ContributionRepository extends JpaRepository<Contribution, Long
 
     List<Contribution> findByStudent_TeamId(String teamId);
 
-    List<Contribution> findByStudent_GitId(String gitId);
+    List<Contribution> findByStudent_Username(String username);
 
 }

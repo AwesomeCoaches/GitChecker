@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.ssafy.gitchecker.payload.ContributionResponse;
-import com.ssafy.gitchecker.payload.StudentResponse;
 
 import lombok.Builder;
 import lombok.Data;
