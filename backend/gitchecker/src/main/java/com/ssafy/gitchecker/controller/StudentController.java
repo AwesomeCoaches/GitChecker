@@ -6,25 +6,15 @@ import java.util.Map;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.ssafy.gitchecker.exception.ResourceNotFoundException;
 import com.ssafy.gitchecker.repository.StudentRepository;
+import com.ssafy.gitchecker.util.GitLabAPI;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/students")
@@ -32,6 +22,8 @@ public class StudentController {
 
     @Autowired
     private StudentRepository sr;
+
+    private GitLabAPI gitlab;
 
     @GetMapping("/")
     public Object getStudent(@RequestParam(required = false, name = "group") @Size(min = 1, max = 10) Integer grp,
@@ -54,9 +46,24 @@ public class StudentController {
     }
 
     @GetMapping("/projects")
-    public Object getInfo(@RequestParam(required = false, name = "search") @Size(min = 1, max = 10) String search) {
+    public Object getProjects(@RequestParam(required = false, name = "search") @Size(min = 1, max = 10) String search) {
+        gitlab = new GitLabAPI();
         
+        Map<String, String> params = new HashMap<>();
 
-        return "projects";
+        params.put("simple", "true");
+        if(search != null) params.put("search", search);
+
+        Map<String, String> res = gitlab.getProjects(params);
+
+        return res.toString();
     }
+
+    @GetMapping("/members")
+    public Object getMembers(@RequestParam(required = true, name = "projectID") @Size(min = 1, max = 10) String projectID){
+        gitlab = new GitLabAPI();
+
+        return gitlab.getMembers(projectID);
+    }
+
 }
