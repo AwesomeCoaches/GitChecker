@@ -10,10 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ssafy.gitchecker.payload.ContributionResponse;
+import com.ssafy.gitchecker.payload.StudentResponse;
+
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Data
+@Builder
 public class Contribution {
 
     @Id
@@ -25,8 +30,17 @@ public class Contribution {
     private Student student;
 
     @Column(nullable = false, updatable = false)
-    private int cnt;
+    private Integer cnt;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime date;
+
+    public ContributionResponse toResponse() {
+        return ContributionResponse.builder()
+                .id(id)
+                .student(student.toResponse())
+                .cnt(cnt)
+                .date(date)
+                .build();
+    }
 }
