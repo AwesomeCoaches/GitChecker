@@ -54,9 +54,7 @@ public class StudentController {
         params.put("simple", "true");
         if(search != null) params.put("search", search);
 
-        Map<String, String> res = gitlab.getProjects(params);
-
-        return res.toString();
+        return gitlab.getProjects(params).toString();
     }
 
     @GetMapping("/members")
@@ -64,6 +62,26 @@ public class StudentController {
         gitlab = new GitLabAPI();
 
         return gitlab.getMembers(projectID).toString();
+    }
+
+    @GetMapping("/updateAll")
+    public Object setMembers(@RequestParam(required = false, name = "search") @Size(min = 1, max = 10) String search){
+
+        gitlab = new GitLabAPI();
+        
+        Map<String, String> params = new HashMap<>();
+
+        params.put("simple", "true");
+        if(search != null) params.put("search", search);
+
+        Map<String, String> res = gitlab.getProjects(params);
+
+        res.forEach((key, value) -> {
+            String projectID = key;
+            String projectName = value;
+        });
+
+        return "Test";
     }
 
 }
