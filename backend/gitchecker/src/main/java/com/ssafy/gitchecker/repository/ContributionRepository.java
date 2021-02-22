@@ -13,5 +13,14 @@ public interface ContributionRepository extends JpaRepository<Contribution, Long
 
     Optional<Contribution> findById(Long id);
 
-    List<Contribution> findByStudentId(Long studentId);
+    List<Contribution> findByStudent_Grp(int grp);
+
+    List<Contribution> findByStudent_City(String city);
+
+    List<Contribution> findByStudent_Cls(String cls);
+
+    List<Contribution> findByStudent_TeamId(String teamId);
+
+    List<Contribution> findByStudent_GitId(String gitId);
+
 }
