@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.ssafy.gitchecker.model.Student;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -58,9 +60,34 @@ public class GitLabAPI {
         return resMap;
     }
 
-    public String getMembers(String projectID){
+    public Map<String, Student> getMembers(String projectID){
         ResponseEntity<String> responseEntity = callAPI("/projects/"+ projectID +"/members");
 
-        return responseEntity.getBody().toString();
+        JsonArray jsonArr = new Gson().fromJson(responseEntity.getBody(), JsonArray.class);
+
+        Map<String, Student> resMap = new HashMap<>();
+
+        for(int i = 0; i < jsonArr.size(); i++){
+            Student student = new Student();
+            JsonObject jo = jsonArr.get(i).getAsJsonObject();
+            student.setName(jo.get("name").toString());
+            student.setId(Long.parseLong(jo.get("id").toString()));
+            student.setGitId(jo.get("username").toString());
+            student.setImageUrl(jo.get("avatar_url").toString());
+
+            resMap.put(jo.get("id").toString(), student);
+        }
+
+        return resMap;
+    }
+
+    public String getCity(char c){
+        String res = "구미";
+
+        if(c == 'a' || c == 'A') res = "서울";
+        else if(c == 'b' || c == 'B') res = "대전";
+        else if(c == 'c' || c == 'C') res = "광주";
+
+        return res;
     }
 }

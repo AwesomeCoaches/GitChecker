@@ -10,8 +10,12 @@ import javax.validation.constraints.Email;
 import com.ssafy.gitchecker.payload.StudentResponse;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Data
 public class Student {
 

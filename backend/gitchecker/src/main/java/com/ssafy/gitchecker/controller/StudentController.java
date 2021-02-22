@@ -63,7 +63,7 @@ public class StudentController {
     public Object getMembers(@RequestParam(required = true, name = "projectID") @Size(min = 1, max = 10) String projectID){
         gitlab = new GitLabAPI();
 
-        return gitlab.getMembers(projectID);
+        return gitlab.getMembers(projectID).toString();
     }
 
 }
