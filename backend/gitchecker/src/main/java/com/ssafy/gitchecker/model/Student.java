@@ -6,12 +6,10 @@ import javax.persistence.Id;
 
 import com.ssafy.gitchecker.payload.StudentResponse;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Data
-@Builder
 public class Student {
 
     @Id

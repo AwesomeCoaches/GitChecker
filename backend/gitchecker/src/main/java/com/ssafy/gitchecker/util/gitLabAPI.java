@@ -66,15 +66,16 @@ public class GitLabAPI {
         JsonArray jsonArr = new Gson().fromJson(responseEntity.getBody(), JsonArray.class);
 
         Map<String, Student> resMap = new HashMap<>();
-        JsonObject jo = null;
+        
         for(int i = 0; i < jsonArr.size(); i++){
-            jo = jsonArr.get(i).getAsJsonObject();
-            resMap.put(jo.get("id").toString(), Student.builder()
-                    .id(Long.parseLong(jo.get("id").toString()))
-                    .name(jo.get("name").toString())
-                    .username(jo.get("username").toString())
-                    .avatarUrl(jo.get("avatar_url").toString())
-                    .build());
+            Student student = new Student();
+            JsonObject jo = jsonArr.get(i).getAsJsonObject();
+            student.setName(jo.get("name").toString());
+            student.setId(Long.parseLong(jo.get("id").toString()));
+            student.setUsername(jo.get("username").toString());
+            student.setAvatarUrl(jo.get("avatar_url").toString());
+
+            resMap.put(jo.get("id").toString(), student);
         }
 
         return resMap;
