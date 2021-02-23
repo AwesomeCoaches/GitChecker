@@ -31,14 +31,14 @@ public class StudentController {
             @RequestParam(required = false, name = "city") @Pattern(regexp = "[a-zA-Z]{4, 7}") String city,
             @RequestParam(required = false, name = "class") @Size(min = 1, max = 10) String cls,
             @RequestParam(required = false, name = "team_id") @Pattern(regexp = "[a-zA-Z0-9]{4}") String teamId,
-            @RequestParam(required = false, name = "git_id") @Pattern(regexp = "[a-zA-Z0-9]{4, 20}") String username) {
+            @RequestParam(required = false, name = "username") @Pattern(regexp = "[a-zA-Z0-9]{4, 20}") String username) {
 
         if(grp != null) return sr.findByGrp(grp).stream().map(s -> s.toResponse());
         else if(city != null) return sr.findByCity(city).stream().map(s -> s.toResponse());
         else if (cls != null) return sr.findByCls(cls).stream().map(s -> s.toResponse());
         else if (teamId != null) return sr.findByTeamId(teamId).stream().map(s -> s.toResponse());
         else if (username != null) return sr.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("student", "git_id", username));
+                .orElseThrow(() -> new ResourceNotFoundException("student", "username", username));
         return sr.findAll().stream().map(s -> s.toResponse());
     }
 
