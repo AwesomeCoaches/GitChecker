@@ -72,8 +72,8 @@ public class GitLabAPI {
             JsonObject jo = jsonArr.get(i).getAsJsonObject();
             student.setName(jo.get("name").toString());
             student.setId(Long.parseLong(jo.get("id").toString()));
-            student.setGitId(jo.get("username").toString());
-            student.setImageUrl(jo.get("avatar_url").toString());
+            student.setUsername(jo.get("username").toString());
+            student.setAvatarUrl(jo.get("avatar_url").toString());
 
             resMap.put(jo.get("id").toString(), student);
         }
