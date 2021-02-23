@@ -10,17 +10,13 @@ import javax.validation.constraints.Email;
 import com.ssafy.gitchecker.payload.StudentResponse;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 @Data
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
     private Long id;
 
     @Column(nullable = false, updatable = false)
@@ -30,7 +26,7 @@ public class Student {
     private String gitId;
 
     @Email
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(nullable = true, updatable = false, unique = true)
     private String email;
 
     @Column(nullable = false, updatable = false)

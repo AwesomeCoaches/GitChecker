@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.ssafy.gitchecker.exception.ResourceNotFoundException;
+import com.ssafy.gitchecker.model.Student;
 import com.ssafy.gitchecker.repository.StudentRepository;
 import com.ssafy.gitchecker.util.GitLabAPI;
 
@@ -52,6 +53,7 @@ public class StudentController {
         Map<String, String> params = new HashMap<>();
 
         params.put("simple", "true");
+        params.put("per_page", "100");
         if(search != null) params.put("search", search);
 
         return gitlab.getProjects(params).toString();
@@ -65,23 +67,41 @@ public class StudentController {
     }
 
     @GetMapping("/updateAll")
-    public Object setMembers(@RequestParam(required = false, name = "search") @Size(min = 1, max = 10) String search){
+    public Object setMembers(@RequestParam(required = false, name = "search") @Size(min = 3, max = 10) String search){
 
         gitlab = new GitLabAPI();
         
         Map<String, String> params = new HashMap<>();
 
         params.put("simple", "true");
+        params.put("per_page", "100");
         if(search != null) params.put("search", search);
 
-        Map<String, String> res = gitlab.getProjects(params);
+        Map<String, String> projects = gitlab.getProjects(params);
 
-        res.forEach((key, value) -> {
-            String projectID = key;
-            String projectName = value;
+        Map<String, Student> res = new HashMap<>();
+        projects.forEach((projectID, projectName) -> {
+            int grp = Integer.parseInt(projectName.substring(1, 3));
+            String city = gitlab.getCity(projectName.charAt(6));
+            String cls = projectName.substring(7, 8);
+            String teamId = projectName.substring(8, 10);
+
+            Map<String, Student> members = gitlab.getMembers(projectID);
+            members.forEach((key, student) -> {
+                student.setGrp(grp);
+                student.setCity(city);
+                student.setCls(cls);
+                student.setTeamId(teamId);
+                
+                if(sr.existsById(student.getId()) == false){
+                    sr.save(student);
+                }
+
+                res.put(key, student);
+            });
         });
 
-        return "Test";
+        return res.toString();
     }
 
 }

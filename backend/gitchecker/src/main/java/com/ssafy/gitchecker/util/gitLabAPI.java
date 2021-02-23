@@ -54,7 +54,7 @@ public class GitLabAPI {
         Map<String, String> resMap = new HashMap<>();
         
         for(int i = 0; i < jsonArr.size(); i++){
-            resMap.put( jsonArr.get(i).getAsJsonObject().get("id").toString(), jsonArr.get(i).getAsJsonObject().get("path").toString());
+            resMap.put( jsonArr.get(i).getAsJsonObject().get("id").toString(), jsonArr.get(i).getAsJsonObject().get("path").toString().substring(1, 11));
         }
 
         return resMap;
