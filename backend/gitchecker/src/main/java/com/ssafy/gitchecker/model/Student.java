@@ -15,6 +15,7 @@ import lombok.Data;
 public class Student {
 
     @Id
+    @Column(nullable = false)
     private Long id;
 
     @Column(nullable = false, updatable = false)
