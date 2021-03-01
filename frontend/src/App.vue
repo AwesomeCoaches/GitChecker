@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script>
+<script>zz
 import NavBar from "@/components/NavBar"
 
 export default {
