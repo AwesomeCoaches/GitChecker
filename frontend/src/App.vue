@@ -1,16 +1,21 @@
 <template>
   <div id="app">
     <NavBar/>
-    <router-view/>
+    <div class="d-flex">
+      <SideBar/>
+      <router-view/>
+    </div>
   </div>
 </template>
 
-<script>zz
+<script>
 import NavBar from "@/components/NavBar"
+import SideBar from "@/components/SideBar"
 
 export default {
   components: {
     NavBar,
+    SideBar
   },
 }
 </script>
@@ -23,5 +28,7 @@ export default {
   /* text-align: center; */
   color: #2c3e50;
 }
-
+.d-flex {
+  display: flex;
+}
 </style>
