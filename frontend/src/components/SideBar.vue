@@ -52,11 +52,14 @@
 
 <style scoped>
 .sidebar {
-  width: 250px;
-  min-width: 200px;
-  min-height: 500px;
-  padding: 12px;
-  border: dashed 4px skyblue;
+    width: 250px;
+    height: 100%;
+    min-width: 200px;
+    min-height: 500px;
+    padding: 12px;
+    /* border: dashed 4px skyblue; */
+    box-shadow: 1px -10px 15px #0000002b;
+    z-index: 2;
 }
 
 .filter {
