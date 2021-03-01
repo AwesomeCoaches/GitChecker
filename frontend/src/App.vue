@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <NavBar/>
     <div class="d-flex">
       <SideBar/>
       <router-view/>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>

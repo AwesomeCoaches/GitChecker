@@ -6,11 +6,31 @@
     <!-- <div v-for="dummy in dummyData" :key="dummy.id">
       <Content :dummy="dummy" />
     </div> -->
-    <div class="charts">
-      <AreaChart/>
-      <PieChart/>
-      <BarChart/>
-    </div>
+    <v-tabs
+      color="deep-purple accent-4"
+      right
+    >
+      <v-tab>자세히</v-tab>
+      <v-tab>간략히</v-tab>
+
+       <v-tab-item>
+        <v-container fluid>
+          <div class="charts">
+            <Table/>
+          </div>
+        </v-container>
+      </v-tab-item>
+      <v-tab-item>
+        <v-container fluid>
+          <div class="charts">
+            <AreaChart/>
+            <PieChart/>
+            <BarChart/>
+          </div>
+        </v-container>
+      </v-tab-item>
+    </v-tabs>
+    
   </div>
 </template>
 
@@ -19,6 +39,7 @@
 import AreaChart from "@/components/chart/AreaChart.vue";
 import PieChart from "@/components/chart/PieChart.vue";
 import BarChart from "@/components/chart/BarChart.vue";
+import Table from "@/components/Table.vue";
 
 const dummies = Array();
 for (let i = 0; i < 10; i++) {
@@ -36,6 +57,7 @@ export default {
     AreaChart,
     PieChart,
     BarChart,
+    Table
   },
 };
 </script>
@@ -52,7 +74,7 @@ export default {
   min-width: 500px;
   min-height: 500px;
 
-  border: dashed 4px lightgreen;
+  /* border: dashed 4px lightgreen; */
 }
 
 .contents > div {
