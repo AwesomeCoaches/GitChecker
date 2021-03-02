@@ -80,9 +80,9 @@ public class StudentController {
         Map<String, Student> res = new HashMap<>();
         projects.forEach((projectID, projectName) -> {
             int grp = Integer.parseInt(projectName.substring(1, 3));
-            String city = gitlab.getCity(projectName.charAt(6));
+            String city = "" + projectName.charAt(6);
             String cls = projectName.substring(7, 8);
-            String teamId = projectName.substring(8, 10);
+            String teamId = projectName.substring(6, 10);
 
             Map<String, Student> members = gitlab.getMembers(projectID);
             members.forEach((key, student) -> {
