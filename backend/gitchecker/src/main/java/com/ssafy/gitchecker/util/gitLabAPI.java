@@ -70,10 +70,10 @@ public class GitLabAPI {
         for(int i = 0; i < jsonArr.size(); i++){
             Student student = new Student();
             JsonObject jo = jsonArr.get(i).getAsJsonObject();
-            student.setName(jo.get("name").toString());
+            student.setName(jo.get("name").toString().split("\"")[1]);
             student.setId(Long.parseLong(jo.get("id").toString()));
-            student.setUsername(jo.get("username").toString());
-            student.setAvatarUrl(jo.get("avatar_url").toString());
+            student.setUsername(jo.get("username").toString().split("\"")[1]);
+            student.setAvatarUrl(jo.get("avatar_url").toString().split("\"")[1]);
 
             resMap.put(jo.get("id").toString(), student);
         }
