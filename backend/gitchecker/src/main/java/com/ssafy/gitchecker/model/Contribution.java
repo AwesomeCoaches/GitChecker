@@ -12,12 +12,14 @@ import javax.persistence.ManyToOne;
 
 import com.ssafy.gitchecker.payload.ContributionResponse;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Contribution {
 
     @Id
