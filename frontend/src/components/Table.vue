@@ -1,13 +1,36 @@
 <template>
   <div style="width:100%; height:100%;">
-      <v-data-table
-      :headers="headers"
-      :items="students"
-      :options.sync="options"
-      :server-items-length="studentNum"
-      :loading="loading"
-      class="elevation-1"
-    ></v-data-table>
+     <v-simple-table
+    fixed-header
+    height="100%"
+  >
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th>
+            이름
+          </th>
+          <th>
+            지라코드
+          </th>
+          <th v-for="week in 6" :key="week">
+            <tr>{{week}}주차</tr>
+            <tr>
+              <th v-for="day in 5" :key="day">{{day}}</th>
+            </tr>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(student,index) in students"
+          :key="(student,index)"
+        >
+          <td>{{ student.name }}</td>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
   </div>
 </template>
 
@@ -19,16 +42,8 @@ export default {
   },
     data () {
       return {
-        studentNum: 2,
-        students: [{city: "B",
-                  class: "1",
-                  email: "a",
-                  git_id: "a",
-                  group: 1,
-                  id: 1,
-                  image_url: "a",
-                  name: "a",
-                  team_id: "2"}],
+        studentNum: 0,
+        students: [],
         loading: false,
         options: {},
         headers: [
@@ -111,10 +126,37 @@ export default {
         }
         )
       },
+      getContributions () {
+        axios.get(`http://localhost:8080/contributions/`)
+        .then((res)=>{
+          console.log(res);
+          this.students = res.data;
+          this.totalDesserts = res.data.length;
+        })
+        .catch(function (error) {
+            console.log(error)
+        }
+        )
+      },
     }
 }
 </script>
 
 <style>
+.v-window{
+ height: 100%;
+}
 
+.v-window-item{
+  height: 100%;
+}
+
+.charts{
+  /* height:50% !important; */
+}
+.container--fluid {
+    max-width: 100%;
+    overflow-y: scroll;
+    height: 100%;
+}
 </style>
