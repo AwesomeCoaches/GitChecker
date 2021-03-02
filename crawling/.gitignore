@@ -2,4 +2,3 @@ secrets.json
 *.csv
 chromedriver.*
 chromedriver
-*.txt
