@@ -16,7 +16,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-public class GitLabAPI {
+public class CustomAPI {
     
     private static final String BaseUrl = "https://lab.ssafy.com/api/v4";
     private static final String privateToken = "a3sroJgsz_iuJxeT9-Mj";

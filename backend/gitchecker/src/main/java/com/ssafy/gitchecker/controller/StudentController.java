@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import com.ssafy.gitchecker.exception.ResourceNotFoundException;
 import com.ssafy.gitchecker.model.Student;
 import com.ssafy.gitchecker.repository.StudentRepository;
-import com.ssafy.gitchecker.util.GitLabAPI;
+import com.ssafy.gitchecker.util.CustomAPI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,7 +26,7 @@ public class StudentController {
     @Autowired
     private StudentRepository sr;
 
-    private GitLabAPI gitlab;
+    private CustomAPI gitlab;
 
     @GetMapping("/")
     public Object getStudent(@RequestParam(required = false, name = "group") @Size(min = 1, max = 10) Integer grp,
@@ -46,7 +46,7 @@ public class StudentController {
 
     @GetMapping("/projects")
     public Object getProjects(@RequestParam(required = false, name = "search") @Size(min = 1, max = 10) String search) {
-        gitlab = new GitLabAPI();
+        gitlab = new CustomAPI();
         
         Map<String, String> params = new HashMap<>();
 
@@ -59,7 +59,7 @@ public class StudentController {
 
     @GetMapping("/members")
     public Object getMembers(@RequestParam(required = true, name = "projectID") @Size(min = 1, max = 10) String projectID){
-        gitlab = new GitLabAPI();
+        gitlab = new CustomAPI();
 
         return gitlab.getMembers(projectID).toString();
     }
@@ -67,7 +67,7 @@ public class StudentController {
     @GetMapping("/updateAll")
     public Object setMembers(@RequestParam(required = false, name = "search") @Size(min = 3, max = 10) String search){
 
-        gitlab = new GitLabAPI();
+        gitlab = new CustomAPI();
         
         Map<String, String> params = new HashMap<>();
 
@@ -80,9 +80,9 @@ public class StudentController {
         Map<String, Student> res = new HashMap<>();
         projects.forEach((projectID, projectName) -> {
             int grp = Integer.parseInt(projectName.substring(1, 3));
-            String city = "" + projectName.charAt(6);
+            String city = "" + projectName.toUpperCase().charAt(6);
             String cls = projectName.substring(7, 8);
-            String teamId = projectName.substring(6, 10);
+            String teamId = projectName.toUpperCase().substring(6, 10);
 
             Map<String, Student> members = gitlab.getMembers(projectID);
             members.forEach((key, student) -> {
