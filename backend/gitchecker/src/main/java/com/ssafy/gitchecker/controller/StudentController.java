@@ -12,6 +12,7 @@ import com.ssafy.gitchecker.repository.StudentRepository;
 import com.ssafy.gitchecker.util.CustomAPI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RequestMapping("/students")
 public class StudentController {
+
+    private static final String TEAM_ID = "teamId";
 
     @Autowired
     private StudentRepository sr;
@@ -35,13 +38,13 @@ public class StudentController {
             @RequestParam(required = false, name = "team_id") @Pattern(regexp = "[a-zA-Z0-9]{4}") String teamId,
             @RequestParam(required = false, name = "username") @Pattern(regexp = "[a-zA-Z0-9]{4, 20}") String username) {
 
-        if(grp != null) return sr.findByGrp(grp).stream().map(s -> s.toResponse());
-        else if(city != null) return sr.findByCity(city).stream().map(s -> s.toResponse());
-        else if (cls != null) return sr.findByCls(cls).stream().map(s -> s.toResponse());
-        else if (teamId != null) return sr.findByTeamId(teamId).stream().map(s -> s.toResponse());
-        else if (username != null) return sr.findByUsername(username)
+        if(grp != null) return sr.findByGrp(grp, Sort.by(TEAM_ID)).stream().map(s -> s.toResponse());
+        else if(city != null) return sr.findByCity(city, Sort.by(TEAM_ID)).stream().map(s -> s.toResponse());
+        else if (cls != null) return sr.findByCls(cls, Sort.by(TEAM_ID)).stream().map(s -> s.toResponse());
+        else if (teamId != null) return sr.findByTeamId(teamId, Sort.by(TEAM_ID)).stream().map(s -> s.toResponse());
+        else if (username != null) return sr.findByUsername(username, Sort.by(TEAM_ID))
                 .orElseThrow(() -> new ResourceNotFoundException("student", "username", username));
-        return sr.findAll().stream().map(s -> s.toResponse());
+        return sr.findAll(Sort.by(TEAM_ID)).stream().map(s -> s.toResponse());
     }
 
     @GetMapping("/projects")
