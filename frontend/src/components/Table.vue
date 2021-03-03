@@ -45,8 +45,15 @@
           <td class="fix">{{student.city}}/{{student.class}}</td>
           <td class="fix">s04p13{{student.team_id}}</td>
           <td v-for="week in 6" :key="week">
-            <div v-for="day in 7" :key="day" class="cell" :style="{'box-shadow':rows[(week-1)*5+(day-1)]}" @mouseover="mouseoverDay($event,(week-1)*5+(day))" @mouseout="mouseoutDay">0</div>
-          <div class="cell">X</div>
+            <div 
+              v-for="day in 7" 
+              :key="day" 
+              class="cell" 
+              :style="{'box-shadow':rows[(week-1)*5+(day-1)]}" 
+              @mouseover="mouseoverDay($event,(week-1)*5+(day))" 
+              @mouseout="mouseoutDay"
+            >0</div>
+            <div class="cell">X</div>
           </td>
         </tr>
       </tbody>
@@ -57,8 +64,8 @@
 
 <script>
 import axios from 'axios';
-// const URL = 'http://t4coach44.p.ssafy.io/api';
-const URL = 'http://localhost:8080';
+const URL = 'http://t4coach44.p.ssafy.io/api';
+// const URL = 'http://localhost:8080';
 export default {
     components: {
     
@@ -67,7 +74,7 @@ export default {
       return {
         studentNum: 0,
         students: [],
-        contributions:[],
+        contributions: [],
         projectTerms:[],
         getitems:'',
         nowProjectType:2, //현재 진행하고 있는 프로젝트 타입
@@ -75,16 +82,13 @@ export default {
         Today:'',
         thisDay:'',
         rows:[],
-        commitDatas:[]
+        commitDatas: {}
       }
   },
-    mounted(){
-      this.getContributions()
-        this.getStudents ()
-        this.getProjectTerms()
-        setTimeout(() => {
-         this.setContributions()
-        }, 1000);
+    created(){
+      this.getStudents();
+      this.getContributions();
+      this.getProjectTerms();
     },
     methods:{
       mouseoverDay(event,day){
@@ -102,7 +106,6 @@ export default {
       getStudents () {
         axios.get(`${URL}/students/`)
         .then((res)=>{
-          // console.log(res);
           this.students = res.data;
           this.totalDesserts = res.data.length;
         })
@@ -114,8 +117,9 @@ export default {
       getContributions () {
         axios.get(`${URL}/contributions/`)
         .then((res)=>{
-          console.log(res);
           this.contributions = res.data;
+          this.setContributions();
+
         })
         .catch(function (error) {
             console.log(error)
@@ -124,22 +128,26 @@ export default {
       },
     setContributions(){
       this.contributions.forEach(contribution =>{
+        if (!Object.prototype.hasOwnProperty.call(this.commitDatas, contribution.student.name)) {
+          this.commitDatas[contribution.student.name] = {};
+        }
+        this.commitDatas[contribution.student.name][contribution.date] = contribution.cnt;
           // console.log(contribution);
-          var conDay = contribution.date.split("T")[0];
-          var computingDayNum = 0;
-          for(var i=0; i<42;i++){
-            if(conDay==this.days[i]){
-              computingDayNum = i;
-              console.log(this.days[i]);
-          }
-          var commitColor = '';
-          if (contribution.cnt>40) {
-            commitColor = "green";
-          }else{
-            commitColor = "yellow"
-          }
-          this.commitDatas[contribution.student.id*100+computingDayNum] = {num:contribution.cnt,color:commitColor}
-        } 
+          // var conDay = contribution.date.split("T")[0];
+          // var computingDayNum = 0;
+          // for(var i=0; i<42;i++){
+          //   if(conDay==this.days[i]){
+          //     computingDayNum = i;
+          //     console.log(this.days[i]);
+          // }
+          // var commitColor = '';
+          // if (contribution.cnt>40) {
+          //   commitColor = "green";
+          // }else{
+          //   commitColor = "yellow"
+          // }
+          // this.commitDatas[contribution.student.id*100+computingDayNum] = {num:contribution.cnt,color:commitColor}
+        // } 
       });//end of forEach
     console.log(this.commitDatas);
     },
