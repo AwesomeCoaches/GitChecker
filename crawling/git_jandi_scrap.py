@@ -37,11 +37,14 @@ day = {
     'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
 }
 
-for i, member in enumerate(members[210:]):
+for i, member in enumerate(members):
     print(i, member)
     browser.get(GIT_URL + member)
-    elem = WebDriverWait(browser, 10).until(EC.presence_of_element_located(
-        (By.XPATH, "//*[@id='js-overview']/div[1]/div/div/div[1]/div")))
+    try:
+        elem = WebDriverWait(browser, 10).until(EC.presence_of_element_located(
+            (By.XPATH, "//*[@id='js-overview']/div[1]/div/div/div[1]/div")))
+    except:
+        continue
     page = browser.page_source
     soup = BeautifulSoup(page, 'html.parser')
     jandis = soup.find_all("rect")
@@ -59,4 +62,5 @@ for i, member in enumerate(members[210:]):
                    'accept': 'application/json'}
         requests.post(API_SERVER_URL + 'contributions/',
                       data=json.dumps(data), headers=headers)
+
 browser.quit()
