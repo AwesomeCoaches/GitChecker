@@ -42,7 +42,7 @@ public class StudentController {
         else if(city != null) return sr.findByCity(city, Sort.by(TEAM_ID)).stream().map(s -> s.toResponse());
         else if (cls != null) return sr.findByCls(cls, Sort.by(TEAM_ID)).stream().map(s -> s.toResponse());
         else if (teamId != null) return sr.findByTeamId(teamId, Sort.by(TEAM_ID)).stream().map(s -> s.toResponse());
-        else if (username != null) return sr.findByUsername(username, Sort.by(TEAM_ID))
+        else if (username != null) return sr.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("student", "username", username));
         return sr.findAll(Sort.by(TEAM_ID)).stream().map(s -> s.toResponse());
     }
