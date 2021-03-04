@@ -52,7 +52,7 @@
               :style="{'box-shadow':rows[(week-1)*5+(day-1)]}" 
               @mouseover="mouseoverDay($event,(week-1)*5+(day))" 
               @mouseout="mouseoutDay"
-            >0</div>
+            >{{ student.commits[(week - 1) * 7 + day - 1] }}</div>
             <div class="cell">X</div>
           </td>
         </tr>
@@ -85,9 +85,13 @@ export default {
         commitDatas: {}
       }
   },
+  computed: {
+    st: (name) => {
+      return this.commitDatas[name][0];
+    }
+  },
     created(){
       this.getStudents();
-      this.getContributions();
       this.getProjectTerms();
     },
     methods:{
@@ -107,7 +111,12 @@ export default {
         axios.get(`${URL}/students/`)
         .then((res)=>{
           this.students = res.data;
+          this.students.forEach(student => {
+            this.commitDatas[student.username] = student;
+            this.commitDatas[student.username].commits = [];
+          });
           this.totalDesserts = res.data.length;
+          this.getContributions();
         })
         .catch(function (error) {
             console.log(error)
@@ -128,10 +137,7 @@ export default {
       },
     setContributions(){
       this.contributions.forEach(contribution =>{
-        if (!Object.prototype.hasOwnProperty.call(this.commitDatas, contribution.student.name)) {
-          this.commitDatas[contribution.student.name] = {};
-        }
-        this.commitDatas[contribution.student.name][contribution.date] = contribution.cnt;
+        this.commitDatas[contribution.student.username].commits.push(contribution.cnt);
           // console.log(contribution);
           // var conDay = contribution.date.split("T")[0];
           // var computingDayNum = 0;
@@ -149,7 +155,6 @@ export default {
           // this.commitDatas[contribution.student.id*100+computingDayNum] = {num:contribution.cnt,color:commitColor}
         // } 
       });//end of forEach
-    console.log(this.commitDatas);
     },
     getProjectTerms () {
         // axios.get(`http://localhost:8080/contributions/`)
