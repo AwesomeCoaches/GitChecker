@@ -15,7 +15,7 @@
 
        <v-tab-item>
         <v-container fluid>
-          <div class="charts">
+          <div>
             <Table/>
           </div>
         </v-container>
@@ -70,7 +70,7 @@ export default {
 .contents {
   display: flex;
   flex-wrap: wrap;
-  width: 80vw;
+  width: 85vw;
   min-width: 500px;
   min-height: 500px;
 
