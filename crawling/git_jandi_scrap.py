@@ -1,20 +1,28 @@
-import json
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+# -*- coding: utf-8 -*-
+
 from bs4 import BeautifulSoup
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium import webdriver
+import json
+import requests
+import time
 
-r = open('members.txt', 'r')
+# r = open('members.txt', 'r')
+# while True:
+#     line = r.readline().rstrip()
+#     if not line:
+#         break
+#     members.append(line)
+# r.close()
+
 members = []
-while True:
-    line = r.readline().rstrip()
-    if not line:
-        break
-    members.append(line)
-r.close()
-
+res = requests.get('http://t4coach44.p.ssafy.io/api/students/')
+res.raise_for_status()
+for student in res.json():
+    members.append([student['username'], student['name']])
 secrets = json.loads(open('secrets.json').read())
 COACH_ID = secrets["COACH_ID"]
 COACH_PASSWORD = secrets["COACH_PASSWORD"]
@@ -33,23 +41,28 @@ pwdForm = browser.find_element_by_id('userPwd')
 pwdForm.send_keys(COACH_PASSWORD)
 browser.find_element_by_link_text('로그인').click()
 
-f = open('GwangjuClass01Git.csv', 'w')
+f = open('contributions.csv', 'w', encoding='utf-8')
 
 url = "http://lab.ssafy.com/"
 
-line = ''
-
+tm = time.localtime(time.time())
+line = time.strftime('%Y-%m-%d %I:%M:%S %p', tm) + '\n'
+line += 'ID, NAME, '
 page = browser.page_source
 soup = BeautifulSoup(page, 'html.parser')
 
-for member in members:
+for member, name in members:
+    print(member, name)
     browser.get(url + member)
-    elem = WebDriverWait(browser, 10).until(EC.presence_of_element_located(
-        (By.XPATH, "//*[@id='js-overview']/div[1]/div/div/div[1]/div")))
+    try:
+        elem = WebDriverWait(browser, 10).until(EC.presence_of_element_located(
+            (By.XPATH, "//*[@id='js-overview']/div[1]/div/div/div[1]/div")))
+    except:
+        continue
     page = browser.page_source
     soup = BeautifulSoup(page, 'html.parser')
     jandis = soup.find_all("rect")
-    line += member + ', '
+    line += member + ', ' + name
     for jandi in jandis[:-5]:
         contributions = jandi["data-original-title"].split('<br />')[
             0].split()[0]
