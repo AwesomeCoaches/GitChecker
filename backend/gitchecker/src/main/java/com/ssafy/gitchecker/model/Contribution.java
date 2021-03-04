@@ -44,4 +44,9 @@ public class Contribution {
                 .date(date)
                 .build();
     }
+
+    public Contribution updateCnt(Integer count) {
+        this.cnt = count.intValue();
+        return this;
+    }
 }

@@ -1,5 +1,7 @@
 package com.ssafy.gitchecker.controller;
 
+import java.util.Optional;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -44,13 +46,25 @@ public class ContributionController {
 
     @PostMapping("/")
     public Object addContribution(@RequestBody AddContributionRequest request) {
-        return cr.save(new Contribution(
-            null,
-            sr.findByUsername(request.getUsername())
-                .orElseThrow(() -> new ResourceNotFoundException("student", "username", request.getUsername())),
-            request.getCount(),
-            request.getDate()
-        ));
+        return cr.save(
+            cr.findByStudent_UsernameAndDate(request.getUsername(), request.getDate())
+            .map(c -> c.updateCnt(request.getCount()))
+            .orElseGet(() -> new Contribution(
+                null,
+                sr.findByUsername(request.getUsername())
+                    .orElseThrow(() -> new ResourceNotFoundException("student", "username", request.getUsername())),
+                request.getCount(),
+                request.getDate()
+            ))
+        );
+
+        // return cr.save(new Contribution(
+        //     null,
+        //     sr.findByUsername(request.getUsername())
+        //         .orElseThrow(() -> new ResourceNotFoundException("student", "username", request.getUsername())),
+        //     request.getCount(),
+        //     request.getDate()
+        // ));
     }
 
 }

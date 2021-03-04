@@ -1,5 +1,6 @@
 package com.ssafy.gitchecker.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,5 +23,7 @@ public interface ContributionRepository extends JpaRepository<Contribution, Long
     List<Contribution> findByStudent_TeamId(String teamId);
 
     List<Contribution> findByStudent_Username(String username);
+
+    Optional<Contribution> findByStudent_UsernameAndDate(String username, LocalDateTime date);
 
 }
