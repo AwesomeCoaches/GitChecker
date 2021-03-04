@@ -41,17 +41,17 @@ pwdForm = browser.find_element_by_id('userPwd')
 pwdForm.send_keys(COACH_PASSWORD)
 browser.find_element_by_link_text('로그인').click()
 
-f = open('contributions.csv', 'w', encoding='utf-8')
+f = open('contributions.csv', 'w', encoding='utf-8-sig')
 
 url = "http://lab.ssafy.com/"
 
 tm = time.localtime(time.time())
 line = time.strftime('%Y-%m-%d %I:%M:%S %p', tm) + '\n'
-line += 'ID, NAME, '
+line += 'ID, NAME\n'
 page = browser.page_source
 soup = BeautifulSoup(page, 'html.parser')
 
-for member, name in members:
+for member, name in members[:50]:
     print(member, name)
     browser.get(url + member)
     try:
@@ -62,7 +62,7 @@ for member, name in members:
     page = browser.page_source
     soup = BeautifulSoup(page, 'html.parser')
     jandis = soup.find_all("rect")
-    line += member + ', ' + name
+    line += member + ', ' + name + ', '
     for jandi in jandis[:-5]:
         contributions = jandi["data-original-title"].split('<br />')[
             0].split()[0]
