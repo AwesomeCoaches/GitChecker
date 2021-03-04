@@ -10,13 +10,6 @@ import json
 import requests
 import time
 
-# r = open('members.txt', 'r')
-# while True:
-#     line = r.readline().rstrip()
-#     if not line:
-#         break
-#     members.append(line)
-# r.close()
 
 members = []
 res = requests.get('http://t4coach44.p.ssafy.io/api/students/')
@@ -51,6 +44,12 @@ line += 'ID, NAME\n'
 page = browser.page_source
 soup = BeautifulSoup(page, 'html.parser')
 
+GIT_URL = "http://lab.ssafy.com/"
+
+day = {
+    'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+}
+
 for member, name in members[:50]:
     print(member, name)
     browser.get(url + member)
@@ -71,7 +70,11 @@ for member, name in members[:50]:
         contributions = jandi[0].split()[0]
         if contributions == 'No':
             contributions = '0'
-        line += contributions + ', '
-    line += '\n'
-f.write(line)
+        data = {'username': member, 'count': contributions, 'date': date[3] + '-' +
+                day[date[1]] + '-' + date[2][:-1].zfill(2) + 'T00:00:00'}
+        headers = {'Content-Type': 'application/json;charset=UTF-8',
+                   'accept': 'application/json'}
+        requests.post(API_SERVER_URL + 'contributions/',
+                      data=json.dumps(data), headers=headers)
+
 browser.quit()
