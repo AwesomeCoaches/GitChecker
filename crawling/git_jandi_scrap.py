@@ -64,8 +64,11 @@ for member, name in members[:50]:
     jandis = soup.find_all("rect")
     line += member + ', ' + name + ', '
     for jandi in jandis[:-5]:
-        contributions = jandi["data-original-title"].split('<br />')[
-            0].split()[0]
+        jandi = jandi["data-original-title"].split('<br />')
+        date = jandi[1].split()
+        if int(date[3]) <= 2020:
+            continue
+        contributions = jandi[0].split()[0]
         if contributions == 'No':
             contributions = '0'
         line += contributions + ', '
