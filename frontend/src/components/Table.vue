@@ -31,7 +31,7 @@
               <div class="weekday cell" @mouseover="mouseoverDay($event,week*7-4)" @mouseout="mouseoutDay">목</div>
               <div class="weekday cell" @mouseover="mouseoverDay($event,week*7-3)" @mouseout="mouseoutDay">금</div>
               <div class="weekend cell" @mouseover="mouseoverDay($event,week*7-2)" @mouseout="mouseoutDay">토</div>
-              <div class="weekend cell" @mouseover="mouseoverDay($event,week*7-1)" @mouseout="mouseoutDay">일</div>
+              <div class="weekend cell" @onClick="mouseoverDay($event,week*7-1)" @mouseout="mouseoutDay">일</div>
               <div class="cell">C</div>
           </th>
         </tr>
@@ -45,7 +45,7 @@
           <td class="fix">{{student.city}}/{{student.class}}</td>
           <td class="fix">s04p13{{student.team_id}}</td>
           <td v-for="week in 6" :key="week">
-            <div v-for="day in 7" :key="day" class="cell" :style="{'box-shadow':rows[(week-1)*5+(day-1)]}" @mouseover="mouseoverDay($event,(week-1)*5+(day))" @mouseout="mouseoutDay">0</div>
+            <div v-for="day in 7" :key="day" class="cell" :style="{'box-shadow':rows[(week-1)*7+(day-1)]}" @mouseover="mouseoverDay($event,(week-1)*7+(day))" @mouseout="mouseoutDay">{{0}}</div>
           <div class="cell">X</div>
           </td>
         </tr>
@@ -104,7 +104,7 @@ export default {
         .then((res)=>{
           // console.log(res);
           this.students = res.data;
-          this.totalDesserts = res.data.length;
+          this.studentNum = res.data.length;
         })
         .catch(function (error) {
             console.log(error)
@@ -123,25 +123,41 @@ export default {
         )
       },
     setContributions(){
-      this.contributions.forEach(contribution =>{
-          // console.log(contribution);
-          var conDay = contribution.date.split("T")[0];
-          var computingDayNum = 0;
-          for(var i=0; i<42;i++){
-            if(conDay==this.days[i]){
-              computingDayNum = i;
-              console.log(this.days[i]);
+      // for(var j = 0; j<this.studentNum;j++){
+      //   for(var i = 0; i<42;i++){
+      //     this.commitDatas[j*42+i] = {num:0,color:''};
+      //   }
+      // }
+      // console.log(this.commitDatas);
+
+      // var index = 0;
+      // this.contributions.forEach(contribution =>{
+      //     // console.log(contribution);
+      //     var conDay = contribution.date.split("T")[0];
+      //     var computingDayNum = 0;
+      //     for(var i=0; i<42;i++){
+      //       if(conDay==this.days[i]){
+      //         computingDayNum = i;
+      //         console.log(this.days[i]);
+      //     }
+      //     var commitColor = '';
+      //     if (contribution.cnt>40) {
+      //       commitColor = "green";
+      //     }else{
+      //       commitColor = "yellow"
+      //     }
+      //     this.commitDatas[index*42+computingDayNum] = {num:contribution.cnt,color:commitColor}
+      //     index = index +1;
+      //   } 
+      // });//end of forEach
+      console.log(this.contributions)
+        this.contributions.forEach(contribution =>{
+          if (!Object.prototype.hasOwnProperty.call(this.commitDatas, contribution.student.id)) {
+            this.commitDatas[contribution.student.id] = {};
           }
-          var commitColor = '';
-          if (contribution.cnt>40) {
-            commitColor = "green";
-          }else{
-            commitColor = "yellow"
-          }
-          this.commitDatas[contribution.student.id*100+computingDayNum] = {num:contribution.cnt,color:commitColor}
-        } 
-      });//end of forEach
-    console.log(this.commitDatas);
+          this.commitDatas[contribution.student.id][contribution.date] = contribution.cnt;
+        });
+      console.log(this.commitDatas);
     },
     getProjectTerms () {
         // axios.get(`http://localhost:8080/contributions/`)
