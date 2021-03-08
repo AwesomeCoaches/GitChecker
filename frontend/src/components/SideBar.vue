@@ -8,21 +8,21 @@
           label="지역 선택"
           outlined
           dense
-          v-model="filter.city"
+          v-model="filterCity"
         ></v-select>
         <v-select
           :items="classes"
           label="반 선택"
           outlined
           dense
-          v-model="filter.classes"
+          v-model="filterClass"
         ></v-select>
         <v-select
           :items="team"
           label="팀 선택"
           outlined
           dense
-          v-model="filter.team"
+          v-model="filterTeam"
         ></v-select>
       </div>
     </div>
@@ -36,14 +36,34 @@ export default {
       city: ["", "서울", "대전", "광주", "구미"],
       classes: ["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       team: ["", 1, 2, 3, 4, 5, 6, 7, 8],
-      filter: {
-        city: "",
-        classes: "",
-        team: "",
-      },
     };
   },
-  methods: {},
+  computed: {
+    filterCity: {
+      get() {
+        return this.$store.state.filter.city;
+      },
+      set(value) {
+        this.$store.commit("updateCity", value);
+      },
+    },
+    filterClass: {
+      get() {
+        return this.$store.state.filter.classes;
+      },
+      set(value) {
+        this.$store.commit("updateClass", value);
+      },
+    },
+    filterTeam: {
+      get() {
+        return this.$store.state.filter.team;
+      },
+      set(value) {
+        this.$store.commit("updateTeam", value);
+      },
+    },
+  },
 };
 </script>
 
@@ -54,7 +74,6 @@ export default {
   min-width: 200px;
   min-height: 500px;
   padding: 12px;
-  /* border: dashed 4px skyblue; */
   box-shadow: 1px -10px 15px #0000002b;
   z-index: 2;
 }
