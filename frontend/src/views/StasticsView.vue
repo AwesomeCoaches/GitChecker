@@ -132,7 +132,7 @@ export default {
   methods: {
     getContributions() {
       axios
-        .get(`http://localhost:8082/contributions/`)
+        .get(`http://t4coach44.p.ssafy.io/api/contributions/`)
         .then((res) => {
           console.log(res);
           this.contributions = res.data;
