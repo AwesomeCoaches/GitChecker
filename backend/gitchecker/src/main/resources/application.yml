@@ -7,9 +7,9 @@ spring:
 
     # database config
     datasource:
-        url: jdbc:mysql://t4coach42.p.ssafy.io:3307/gitchecker?useSSL=false&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false&characterEncoding=UTF-8
+        url: jdbc:mysql://t4coach44.p.ssafy.io:3306/gitchecker?useSSL=false&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false&characterEncoding=UTF-8
         username: root
-        password: coach
+        password: root
     # jpa config
     jpa:
         show-sql: true

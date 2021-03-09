@@ -6,39 +6,28 @@
     <!-- <div v-for="dummy in dummyData" :key="dummy.id">
       <Content :dummy="dummy" />
     </div> -->
-    <v-tabs
-      color="deep-purple accent-4"
-      right
-    >
+    <v-tabs color="deep-purple accent-4" right>
       <v-tab>자세히</v-tab>
       <v-tab>간략히</v-tab>
 
-       <v-tab-item>
+      <v-tab-item>
         <v-container fluid>
-          <div class="charts">
-            <Table/>
+          <div>
+            <Table />
           </div>
         </v-container>
       </v-tab-item>
       <v-tab-item>
         <v-container fluid>
-          <div class="charts">
-            <AreaChart/>
-            <PieChart/>
-            <BarChart/>
-          </div>
+          <StasticsView />
         </v-container>
       </v-tab-item>
     </v-tabs>
-    
   </div>
 </template>
 
 <script>
-// import Content from "@/components/Content";
-import AreaChart from "@/components/chart/AreaChart.vue";
-import PieChart from "@/components/chart/PieChart.vue";
-import BarChart from "@/components/chart/BarChart.vue";
+import StasticsView from "@/views/StasticsView.vue";
 import Table from "@/components/Table.vue";
 
 const dummies = Array();
@@ -49,15 +38,11 @@ export default {
   data() {
     return {
       dummyData: dummies,
-      
     };
   },
   components: {
-    // Contents,
-    AreaChart,
-    PieChart,
-    BarChart,
-    Table
+    StasticsView,
+    Table,
   },
 };
 </script>
@@ -70,7 +55,7 @@ export default {
 .contents {
   display: flex;
   flex-wrap: wrap;
-  width: 80vw;
+  width: 85vw;
   min-width: 500px;
   min-height: 500px;
 
