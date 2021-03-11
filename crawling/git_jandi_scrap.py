@@ -38,13 +38,21 @@ pwdForm = browser.find_element_by_id('userPwd')
 pwdForm.send_keys(COACH_PASSWORD)
 browser.find_element_by_link_text('로그인').click()
 
-f = open('contributions.csv', 'w', encoding='utf-8-sig')
+f = open('contributions.json', 'w', encoding='utf-8-sig')
+csv = open('contributions.csv', 'w', encoding='utf-8-sig')
 
 url = "http://lab.ssafy.com/"
 
+contribution = {}
+line = ''
+
 tm = time.localtime(time.time())
-line = time.strftime('%Y-%m-%d %I:%M:%S %p', tm) + '\n'
+updated_time = time.strftime('%Y-%m-%d %I:%M:%S %p', tm)
+contribution['updated_time'] = updated_time
+line += updated_time + '\n'
 line += 'ID, NAME\n'
+
+contribution['students'] = []
 page = browser.page_source
 soup = BeautifulSoup(page, 'html.parser')
 
@@ -54,9 +62,16 @@ day = {
     'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
 }
 
-for member in members[1:30]:
+
+for member in members[1:10]:
+    student = {}
     name = member[1]
     git_id = member[2]
+    student['name'] = name
+    student['git_id'] = git_id
+    student['commits'] = []
+    student['region'] = member[3]
+    student['class'] = member[4:7]
     browser.get(url + git_id)
     try:
         elem = WebDriverWait(browser, 10).until(EC.presence_of_element_located(
@@ -75,12 +90,11 @@ for member in members[1:30]:
         contributions = jandi[0].split()[0]
         if contributions == 'No':
             contributions = '0'
+        student['commits'].append(int(contributions))
         line += contributions + ','
-        # data = {'username': git_id, 'count': contributions, 'date': date[3] + '-' +
-        #         day[date[1]] + '-' + date[2][:-1].zfill(2) + 'T00:00:00'}
-        # headers = {'Content-Type': 'application/json;charset=UTF-8',
-        #            'accept': 'application/json'}
+    contribution['students'].append(student)
     line += '\n'
-f.write(line)
+f.write(json.dumps(contribution, ensure_ascii=False))
+csv.write(line)
 f.close()
 browser.quit()

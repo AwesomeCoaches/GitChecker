@@ -1,4 +1,5 @@
 secrets.json
+contributions.json
 *.csv
 chromedriver.*
 chromedriver
