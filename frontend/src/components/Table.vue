@@ -31,7 +31,7 @@
               <div class="weekday cell" @mouseover="mouseoverDay($event,week*7-4)" @mouseout="mouseoutDay">목</div>
               <div class="weekday cell" @mouseover="mouseoverDay($event,week*7-3)" @mouseout="mouseoutDay">금</div>
               <div class="weekend cell" @mouseover="mouseoverDay($event,week*7-2)" @mouseout="mouseoutDay">토</div>
-              <div class="weekend cell" @onClick="mouseoverDay($event,week*7-1)" @mouseout="mouseoutDay">일</div>
+              <div class="weekend cell" @mouseover="mouseoverDay($event,week*7-1)" @mouseout="mouseoutDay">일</div>
               <div class="cell">C</div>
           </th>
         </tr>
