@@ -11,7 +11,7 @@
 <script>
 import NavBar from "@/components/NavBar";
 import SideBar from "@/components/SideBar";
-import contributions from "@/contributions";
+import contributions from "@/contributions.json";
 
 export default {
   data() {
