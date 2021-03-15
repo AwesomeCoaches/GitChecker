@@ -1,6 +1,8 @@
 <template>
   <div>
-    <!-- {{ this.bestFiltered }} -->
+    {{ filtered.length }}
+    <div v-for="item in filtered" :key="item.id">{{ item }} <br /></div>
+
     <v-menu
       v-model="dateMenu"
       :close-on-content-click="false"
@@ -83,6 +85,9 @@ export default {
     BarChart,
   },
   computed: {
+    filtered() {
+      return this.$store.getters.filteredContributions;
+    },
     dateFiltered() {
       return this.contributions.filter((item) => item.date.includes(this.date));
     },
