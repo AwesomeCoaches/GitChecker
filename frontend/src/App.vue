@@ -1,23 +1,32 @@
 <template>
   <v-app id="app">
-    <NavBar/>
+    <NavBar />
     <div class="d-flex">
-      <SideBar/>
-      <router-view/>
+      <SideBar />
+      <router-view />
     </div>
   </v-app>
 </template>
 
 <script>
-import NavBar from "@/components/NavBar"
-import SideBar from "@/components/SideBar"
+import NavBar from "@/components/NavBar";
+import SideBar from "@/components/SideBar";
+import contributions from "@/contributions";
 
 export default {
+  data() {
+    return {
+      contributions: contributions,
+    };
+  },
   components: {
     NavBar,
-    SideBar
+    SideBar,
   },
-}
+  mounted() {
+    this.$store.commit("getContributions");
+  },
+};
 </script>
 
 <style>

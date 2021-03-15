@@ -1,10 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import contributions from "@/contributions";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    contributions: {},
     filter: {
       city: "",
       classes: "",
@@ -12,6 +14,10 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    getContributions(state) {
+      state.contributions = contributions;
+    },
+
     updateCity(state, value) {
       state.filter.city = value;
     },
