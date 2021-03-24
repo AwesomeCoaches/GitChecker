@@ -16,7 +16,7 @@
             <tbody>
               <tr v-for="(item, idx) in bestFiltered" :key="item.id">
                 <td>{{ idx + 1 }}</td>
-                <td>{{ item.region }}</td>
+                <td>{{ item.region.toUpperCase() }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ sum(item.commits) }}</td>
               </tr>

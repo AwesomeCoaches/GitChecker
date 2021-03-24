@@ -18,7 +18,7 @@ export default new Vuex.Store({
   state: {
     contributions: {},
     filter: {
-      city: "",
+      region: "",
       classes: "",
       team: "",
       period: "전체",
@@ -29,8 +29,8 @@ export default new Vuex.Store({
     getContributions(state) {
       state.contributions = contributions;
     },
-    updateCity(state, value) {
-      state.filter.city = value.toLowerCase();
+    updateRegion(state, value) {
+      state.filter.region = value;
     },
     updateClass(state, value) {
       state.filter.classes = value;
@@ -50,7 +50,9 @@ export default new Vuex.Store({
     filteredContributions: (state) => {
       return state.contributions.students.filter(
         (item) =>
-          (state.filter.city ? item.region === state.filter.city : true) &
+          (state.filter.region
+            ? item.region === state.filter.region.toLowerCase()
+            : true) &
           (state.filter.classes
             ? parseInt(item.class[1] / 100) === state.filter.classes
             : true) &

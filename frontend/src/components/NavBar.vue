@@ -5,11 +5,11 @@
         <img class="logo" src="../assets/logo.png" />
         <div class="filters">
           <v-select
-            :items="city"
+            :items="region"
             label="지역"
             outlined
             dense
-            v-model="filterCity"
+            v-model="filterRegion"
             hegiht="60"
             hide-details
             class="filter"
@@ -91,7 +91,7 @@
 export default {
   data() {
     return {
-      city: ["", "A", "B", "C", "D"],
+      region: ["", "A", "B", "C", "D"],
       classes: ["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       team: ["", 1, 2, 3, 4, 5, 6, 7, 8],
       period: ["전체", "공통", "특화", "자율"],
@@ -99,12 +99,12 @@ export default {
     };
   },
   computed: {
-    filterCity: {
+    filterRegion: {
       get() {
-        return this.$store.state.filter.city;
+        return this.$store.state.filter.region;
       },
       set(value) {
-        this.$store.commit("updateCity", value);
+        this.$store.commit("updateRegion", value);
       },
     },
     filterClass: {
