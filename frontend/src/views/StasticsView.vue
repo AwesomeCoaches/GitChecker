@@ -24,7 +24,7 @@
           </template>
         </v-simple-table>
       </div>
-      <div class="chart top10" v-show="contribCnt > 10">
+      <div class="chart top10" v-if="contribCnt > 10">
         <BarChart :propData="worstFiltered" label="Worst 10" color="#00D8FF" />
         <v-simple-table dense>
           <template v-slot:default>
@@ -48,7 +48,7 @@
         </v-simple-table>
       </div>
       <div class="chart">
-        <PieChart v-show="contribCnt <= 10" />
+        <PieChart v-if="contribCnt <= 10" />
       </div>
     </div>
   </div>
@@ -77,8 +77,8 @@ export default {
       return this.contributions.length;
     },
     bestFiltered() {
-      if (this.isEmpty(this.$store.getters.datesContributions[0].commits))
-        return [];
+      if (this.isEmpty(this.datesContributions)) return [];
+      if (this.isEmpty(this.datesContributions[0].commits)) return [];
       return this.$store.getters.datesContributions
         .slice()
         .sort(
@@ -93,6 +93,7 @@ export default {
         .slice(0, 10);
     },
     worstFiltered() {
+      if (this.isEmpty(this.datesContributions)) return [];
       if (this.isEmpty(this.$store.getters.datesContributions[0].commits))
         return [];
       return this.$store.getters.datesContributions

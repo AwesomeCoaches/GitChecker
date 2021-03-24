@@ -81,7 +81,6 @@ export default new Vuex.Store({
         item.commits = item.commits.slice(diffDays1, diffDays2 + 1);
         return item;
       });
-      console.log(diffDays1, diffDays2 + 1, contributions);
       return contributions;
     },
   },
