@@ -2,7 +2,6 @@
   <v-app id="app">
     <NavBar />
     <div class="d-flex">
-      <SideBar />
       <Contents />
       <!-- <router-view /> -->
     </div>
@@ -11,7 +10,6 @@
 
 <script>
 import NavBar from "@/components/NavBar";
-import SideBar from "@/components/SideBar";
 import contributions from "@/contributions.json";
 import Contents from "@/components/Contents";
 
@@ -23,7 +21,6 @@ export default {
   },
   components: {
     NavBar,
-    SideBar,
     Contents,
   },
   mounted() {

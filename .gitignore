@@ -7,3 +7,4 @@
 frontend/package-lock.json
 
 .DS_store
+frontend/src/contributions.json
