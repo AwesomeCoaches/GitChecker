@@ -44,6 +44,43 @@
             hide-details
             class="filter"
           ></v-select>
+          <div class="filter" style="margin-top: 15px !important">
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              :return-value.sync="filterDates"
+              transition="scale-transition"
+              offset-y
+              nudge-left="150"
+              min-width="auto"
+              hegiht="60"
+              class="filter"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="datesStr"
+                  label="Date Picker"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="filterDates" no-title scrollable range>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="menu = false">
+                  Cancel
+                </v-btn>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="$refs.menu.save(filterDates)"
+                >
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-menu>
+          </div>
         </div>
       </div>
     </v-app-bar>
@@ -54,10 +91,11 @@
 export default {
   data() {
     return {
-      city: ["", "a", "b", "c", "d"],
+      city: ["", "A", "B", "C", "D"],
       classes: ["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       team: ["", 1, 2, 3, 4, 5, 6, 7, 8],
       period: ["전체", "공통", "특화", "자율"],
+      menu: false,
     };
   },
   computed: {
@@ -90,8 +128,30 @@ export default {
         return this.$store.state.filter.period;
       },
       set(value) {
+        let dates = [];
+        if (value === "전체") dates = ["2021-01-11", "2021-05-28"];
+        else if (value === "공통") dates = ["2021-01-11", "2021-02-19"];
+        else if (value == "특화") dates = ["2021-03-02", "2021-04-09"];
+        else if (value == "자율") dates = ["2021-04-12", "2021-05-28"];
         this.$store.commit("updatePeriod", value);
+        this.$store.commit("updateDates", dates);
       },
+    },
+    filterDates: {
+      get() {
+        return this.$store.state.filter.dates;
+      },
+      set(value) {
+        this.$store.commit("updateDates", value);
+      },
+    },
+    datesStr() {
+      return this.filterDates
+        .map((item) => {
+          return item.slice(5, 10);
+        })
+        .sort()
+        .join(" ~ ");
     },
   },
 };
