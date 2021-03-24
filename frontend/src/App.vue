@@ -2,16 +2,16 @@
   <v-app id="app">
     <NavBar />
     <div class="d-flex">
-      <SideBar />
-      <router-view />
+      <Contents />
+      <!-- <router-view /> -->
     </div>
   </v-app>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar";
-import SideBar from "@/components/SideBar";
 import contributions from "@/contributions.json";
+import Contents from "@/components/Contents";
 
 export default {
   data() {
@@ -21,7 +21,7 @@ export default {
   },
   components: {
     NavBar,
-    SideBar,
+    Contents,
   },
   mounted() {
     this.$store.commit("getContributions");

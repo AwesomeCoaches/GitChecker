@@ -4,6 +4,13 @@ import contributions from "@/contributions.json";
 
 Vue.use(Vuex);
 
+// const mapPeriod = {
+//   전체: "",
+//   공통: 0,
+//   특화: 1,
+//   자율: 2,
+// };
+
 export default new Vuex.Store({
   state: {
     contributions: {},
@@ -11,6 +18,7 @@ export default new Vuex.Store({
       city: "",
       classes: "",
       team: "",
+      period: "전체",
     },
   },
   mutations: {
@@ -26,6 +34,9 @@ export default new Vuex.Store({
     updateTeam(state, value) {
       state.filter.team = value;
     },
+    updatePeriod(state, value) {
+      state.filter.period = value;
+    },
   },
   actions: {},
   getters: {
@@ -39,25 +50,6 @@ export default new Vuex.Store({
           (state.filter.team ? item.class[1] % 100 == state.filter.team : true)
       );
     },
-    // filteredStudents: (state) => {
-    //   return state.students
-    //     .filter(
-    //       (item) =>
-    //         (state.filter.city
-    //           ? item.region.includes(state.filter.city)
-    //           : true) &
-    //         (state.filter.classes
-    //           ? parseInt(item.team2 / 100) == state.filter.classes
-    //           : true) &
-    //         (state.filter.team ? item.team2 % 100 == state.filter.team : true)
-    //     )
-    //     .map((item) => item.name);
-    // },
-    // filteredContributions: (state, getters) => {
-    //   return state.contributions.students.filter((item) =>
-    //     getters.filteredStudents.includes(item.name)
-    //   );
-    // },
   },
   modules: {},
 });
