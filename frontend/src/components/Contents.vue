@@ -54,8 +54,10 @@ export default {
 }
 .contents {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  width: 85vw;
+  width: 100vw;
   min-width: 500px;
   min-height: 500px;
 
