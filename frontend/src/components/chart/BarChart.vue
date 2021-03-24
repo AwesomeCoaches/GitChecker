@@ -19,7 +19,6 @@ export default {
   },
   methods: {
     rendChart() {
-      console.log(this.propData);
       this.renderChart(
         {
           labels: this.propData.map((item) => {
