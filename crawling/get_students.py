@@ -109,7 +109,7 @@ def get_events(id):
 
 def save_data(team_code, data):
     csv_file_name = 'user_info.csv'
-    json_file_name = 'contributions.json'
+    json_file_name = '../frontend/src/contributions.json'
     csv_content = {}
     cols = []
     ## read csv_content

@@ -9,9 +9,7 @@ export default {
     color: String,
   },
   watch: {
-    propData: function (newVal, oldVal) {
-      // watch it
-      console.log("Prop changed: ", newVal, " | was: ", oldVal);
+    propData() {
       this.rendChart();
     },
   },
@@ -21,11 +19,10 @@ export default {
   },
   methods: {
     rendChart() {
-      console.log(this.propData);
       this.renderChart(
         {
           labels: this.propData.map((item) => {
-            return item.student.name;
+            return item.name;
           }),
           datasets: [
             {
@@ -33,7 +30,9 @@ export default {
               backgroundColor: this.color,
               data: [
                 ...this.propData.map((item) => {
-                  return item.cnt;
+                  return item.commits.reduce((a, b) => {
+                    return a + b;
+                  });
                 }),
                 0,
               ],
