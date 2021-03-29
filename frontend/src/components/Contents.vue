@@ -9,6 +9,7 @@
     <v-tabs color="deep-purple accent-4" right>
       <v-tab>자세히</v-tab>
       <v-tab>간략히</v-tab>
+      <v-tab>개인</v-tab>
 
       <v-tab-item>
         <v-container fluid>
@@ -22,6 +23,13 @@
           <StasticsView />
         </v-container>
       </v-tab-item>
+      <v-tab-item>
+        <v-container fluid>
+          <div>
+            <Individual />
+          </div>
+        </v-container>
+      </v-tab-item>
     </v-tabs>
   </div>
 </template>
@@ -29,6 +37,7 @@
 <script>
 import StasticsView from "@/views/StasticsView.vue";
 import Table from "@/components/Table.vue";
+import Individual from "@/components/Individual.vue"
 
 const dummies = Array();
 for (let i = 0; i < 10; i++) {
@@ -43,6 +52,7 @@ export default {
   components: {
     StasticsView,
     Table,
+    Individual
   },
 };
 </script>
@@ -55,7 +65,7 @@ export default {
 .contents {
   display: flex;
   flex-wrap: wrap;
-  width: 85vw;
+  width: 100vw;
   min-width: 500px;
   min-height: 500px;
 

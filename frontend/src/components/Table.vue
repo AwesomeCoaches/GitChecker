@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%">
+  <div style="width: 100%; height: 100%" >
     <div
       class="dayRect"
       style="
@@ -8,6 +8,9 @@
         box-shadow: 1px 1px 1px black;
       "
     ></div>
+    <div class="individual_modal" v-if="showindiModal" @click="closeIndividual">
+      <Individual :student = "clickedStudent" class="modal"/>
+    </div>
     <v-simple-table fixed-header padding="0" height="80vh">
       <template v-slot:default>
         <thead>
@@ -31,7 +34,7 @@
         </thead>
         <tbody>
           <tr v-for="student in students" :key="student.git_id">
-            <td class="fix">{{ student.name }}</td>
+            <td class="fix" @click="showIndividual(student)">{{ student.name }}</td>
             <td class="fix">{{ student.region.toUpperCase() }}</td>
             <td
               v-for="(commit, index) in student.commits.slice(10, 60)"
@@ -48,8 +51,9 @@
 </template>
 
 <script>
+import Individual from './Individual.vue'
 export default {
-  components: {},
+  components: {Individual},
   data() {
     return {
       updated_time: "",
@@ -57,9 +61,13 @@ export default {
       totalDays: 0,
       days: ["일", "월", "화", "수", "목", "금", "토"],
       startDays: [10, 60],
+      clickedStudent : '',
+      showindiModal : false
     };
   },
-  computed: {},
+  computed: {
+    
+  },
   created() {
     this.getContributions();
   },
@@ -73,6 +81,13 @@ export default {
       this.updated_time = this.$store.state.contributions.updated_time;
       this.totalDays = this.students[0].commits.length;
     },
+    showIndividual(student){
+      this.clickedStudent = student;
+      this.showindiModal = true;
+    },
+    closeIndividual(){
+      this.showindiModal = false;
+    }
   },
 };
 </script>
@@ -118,5 +133,19 @@ th {
 
 .weekend {
   color: red !important;
+}
+.individual_modal{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    z-index: 121;
+    top: 0;
+    padding: 5vw 10vh;
+}
+.modal{
+  background-color : white;
+  width : 90vw;
+  height : 80vh;
 }
 </style>
