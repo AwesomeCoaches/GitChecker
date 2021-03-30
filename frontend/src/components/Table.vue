@@ -8,8 +8,11 @@
         box-shadow: 1px 1px 1px black;
       "
     ></div>
-    <div class="individual_modal" v-if="showindiModal" @click="closeIndividual">
-      <Individual :student = "clickedStudent" class="modal"/>
+    <div class="individual_modal" v-if="showindiModal">
+      <v-btn @click="compare" class="VS">VS</v-btn>
+      <div @click="closeIndividual" class="close">X</div>
+      <Individual :student = "clickedStudent" :class="modalclass"/>
+      <Individual :student = "compareStudent" :class="modalclass" v-if="modal_saperate"/>
     </div>
     <v-simple-table fixed-header padding="0" height="80vh">
       <template v-slot:default>
@@ -53,7 +56,12 @@
 <script>
 import Individual from './Individual.vue'
 export default {
-  components: {Individual},
+  components: {
+    Individual,
+    // plus:{
+    //   template:`<Individual :student = "clickedStudent" class="modal2"/>`,
+    //     }
+  },
   data() {
     return {
       updated_time: "",
@@ -62,7 +70,10 @@ export default {
       days: ["일", "월", "화", "수", "목", "금", "토"],
       startDays: [10, 60],
       clickedStudent : '',
-      showindiModal : false
+      compareStudent:'',
+      showindiModal : false,
+      modalclass:'modal',
+      modal_saperate : false
     };
   },
   computed: {
@@ -83,10 +94,28 @@ export default {
     },
     showIndividual(student){
       this.clickedStudent = student;
+      let tempStudent = {
+        class:student.class,
+        commits : '',
+        git_id: '',
+        name:'',
+        region: student.region
+      };
+      this.compareStudent = tempStudent;
       this.showindiModal = true;
+      // console.log(this.student);
     },
     closeIndividual(){
       this.showindiModal = false;
+    },
+    compare(){
+      if(this.modalclass=='modal'){
+        this.modalclass = 'modal2';
+        this.modal_saperate = true;
+      }else{
+        this.modalclass = 'modal';
+        this.modal_saperate = false;
+      }
     }
   },
 };
@@ -142,10 +171,41 @@ th {
     z-index: 121;
     top: 0;
     padding: 5vw 10vh;
+    background-color: #0000000d;
 }
 .modal{
   background-color : white;
   width : 90vw;
   height : 80vh;
+  box-shadow: 0px 0px 13px #0000001c;
+  border-radius: 30px;
+  border: 15px solid white;
+}
+.modal2{
+  background-color : white;
+  width : 45vw;
+  height : 80vh;
+  box-shadow: 0px 0px 13px #0000001c;
+  border-radius: 30px;
+  border: 15px solid white;
+  float: left;
+}
+.VS{
+    position: absolute;
+    height: 47px;
+    margin-top: -18px;
+    margin-left: 42.5vw;
+    width: 5vw;
+    
+}
+.close{
+   position: absolute;
+    height: 47px;
+    margin-top: -18px;
+    right: 5vw;
+    width: 5vw;
+    text-align: right;
+    font-size: xxx-large;
+    font-weight: bold;
 }
 </style>

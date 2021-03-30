@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="individual_modal" v-if="showindiModal" @click="closeIndividual">
+      <Individual :student = "clickedStudent" class="modal"/>
+    </div>
     <div class="charts">
       <div class="chart top10">
         <BarChart :propData="bestFiltered" label="Best 10" color="#f87979" />
@@ -37,7 +40,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, idx) in worstFiltered" :key="item.id">
+              <tr v-for="(item, idx) in worstFiltered" :key="item.id" >
                 <td>{{ idx + 1 }}</td>
                 <td>{{ item.region.toUpperCase() }}</td>
                 <td>{{ item.name }}</td>
@@ -133,6 +136,7 @@ export default {
         },
       },
       startDate: new Date("2021-01-01"),
+      showindiModal : false,
     };
   },
 
@@ -149,6 +153,13 @@ export default {
       if (!arr.length) return true;
       return false;
     },
+     showIndividual(student){
+      this.clickedStudent = student;
+      this.showindiModal = true;
+    },
+    closeIndividual(){
+      this.showindiModal = false;
+    }
   },
 };
 </script>
