@@ -24,6 +24,7 @@ export default new Vuex.Store({
       period: "전체",
       dates: ["2021-01-11", "2021-05-28"],
     },
+    
   },
   mutations: {
     getContributions(state) {
