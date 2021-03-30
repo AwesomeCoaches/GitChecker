@@ -55,7 +55,7 @@
               </div>
             </div>
           </div>
-          <line-example style="height:50%; width:100%; margin-bottom:0px"/>
+          <line-example :chartdata="Object(student.commits)" :options="options" style="height:50%; width:100%; margin-bottom:0px"/>
         </div>
       </div>
     </div>
@@ -87,6 +87,7 @@ export default {
       member:[],
       totalCommitNum : 0,
       notCommitedDayNum : 0,
+      options:[]
     };
   },
   computed: {
@@ -96,6 +97,7 @@ export default {
     if(this.student.name!=''){
       for (let day = 0; day < this.student.commits.length; day++) {
         let value = this.student.commits[day];
+        this.options.push(day);
         if(value==0){
           this.notCommitedDayNum +=1;
         }else{
@@ -106,7 +108,6 @@ export default {
       this.now.region = this.student.region;
       this.now.class = this.student.class[1].charAt(0);
       this.now.team = this.student.class[1].charAt(2);
-
     }
   },
   methods: {

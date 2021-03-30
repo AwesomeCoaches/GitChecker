@@ -2,16 +2,23 @@ import { Line } from './BaseCharts'
 
 export default {
   extends: Line,
+  props:['chartdata']
+  ,
   mounted () {
+    let label = [];
+    for(let i = 0; i<this.chartdata.length;i++){
+      label.push(i);
+    }
     this.renderChart({
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: label,
       datasets: [
         {
-          label: 'Data One',
+          label: '',
           backgroundColor: '#f87979',
-          data: [40, 39, 10, 40, 39, 80, 40]
+          data: this.chartdata
         }
       ]
     }, {responsive: true, maintainAspectRatio: false})
-  }
+    
+}
 };
