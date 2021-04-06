@@ -5,18 +5,13 @@ import _ from "lodash";
 
 Vue.use(Vuex);
 
-// const mapPeriod = {
-//   전체: "",
-//   공통: 0,
-//   특화: 1,
-//   자율: 2,
-// };
 const stdDate = new Date("2021-01-01");
 let startDate, endDate;
 
 export default new Vuex.Store({
   state: {
     contributions: {},
+    updatedTime: "",
     filter: {
       region: "",
       classes: "",
@@ -24,10 +19,12 @@ export default new Vuex.Store({
       period: "전체",
       dates: ["2021-01-11", "2021-05-28"],
     },
+    pjt: 1,
   },
   mutations: {
     getContributions(state) {
       state.contributions = contributions;
+      state.updatedTime = contributions.updated_time;
     },
     updateRegion(state, value) {
       state.filter.region = value;
@@ -42,7 +39,7 @@ export default new Vuex.Store({
       state.filter.period = value;
     },
     updateDates(state, value) {
-      state.filter.dates = value;
+      state.filter.dates = value.sort();
     },
   },
   actions: {},
@@ -82,6 +79,9 @@ export default new Vuex.Store({
         return item;
       });
       return contributions;
+    },
+    updatedTime(state) {
+      return state.updatedTime;
     },
   },
   modules: {},

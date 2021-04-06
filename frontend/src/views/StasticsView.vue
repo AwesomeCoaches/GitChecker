@@ -1,6 +1,13 @@
 <template>
   <div>
     <div class="charts">
+      <div>
+        <h3>업데이트 시간</h3>
+        <span>{{ $store.getters.updatedTime }} </span>
+      </div>
+      <div class="chart">
+        <!-- <NoCommits /> -->
+      </div>
       <div class="chart top10">
         <BarChart :propData="bestFiltered" label="Best 10" color="#f87979" />
         <v-simple-table dense>
@@ -49,6 +56,7 @@
       </div>
       <div class="chart">
         <PieChart v-if="contribCnt <= 10" />
+        <PieChartClass v-if="(contribCnt >= 10) & (contribCnt <= 70)" />
       </div>
     </div>
   </div>
@@ -56,15 +64,19 @@
 
 <script>
 // import AreaChart from "@/components/chart/AreaChart.vue";
-import PieChart from "@/components/chart/PieChart.vue";
-import BarChart from "@/components/chart/BarChart.vue";
+import PieChart from "@/components/chart/PieChart";
+import PieChartClass from "@/components/chart/PieChartClass";
+import BarChart from "@/components/chart/BarChart";
+// import NoCommits from "@/components/chart/NoCommits";
 
 export default {
   name: "StasticsView",
   components: {
     // AreaChart,
     PieChart,
+    PieChartClass,
     BarChart,
+    // NoCommits,
   },
   computed: {
     datesContributions() {

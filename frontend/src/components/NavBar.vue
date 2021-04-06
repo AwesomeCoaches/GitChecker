@@ -150,7 +150,6 @@ export default {
         .map((item) => {
           return item.slice(5, 10);
         })
-        .sort()
         .join(" ~ ");
     },
   },

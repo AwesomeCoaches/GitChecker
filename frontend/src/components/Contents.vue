@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import StasticsView from "@/views/StasticsView.vue";
+import StasticsView from "@/views/Layout.vue";
 import Table from "@/components/Table.vue";
 
 const dummies = Array();
@@ -55,7 +55,7 @@ export default {
 .contents {
   display: flex;
   flex-wrap: wrap;
-  width: 85vw;
+  /* width: 85vw; */
   min-width: 500px;
   min-height: 500px;
 
